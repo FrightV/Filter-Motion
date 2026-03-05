@@ -3,13 +3,27 @@ POST http://localhost:8080/produtos
 Content-Type: application/json
 
 {
-  "nome": "Notebook Gamer",
-  "url": "https://exemplo.com",
-  "precoDesejado": 4500.00,
-  "precoAtual": 5000.00,
-  "tipo": "Eletronico",
-  "ativo": true
+  "nome": "UmaMusume 1",
+  "precoAtual": 25.00
 }
 
-### Listar produtos
-GET http://localhost:8080/produtos
+###
+
+POST http://localhost:8080/produtos
+Content-Type: application/json
+
+{
+  "nome": "Hololive",
+  "precoAtual": 30.00
+}
+
+###
+
+### Buscar por nome
+GET http://localhost:8080/produtos/buscar?nome=UmaMusume
+
+###
+GET http://localhost:8080/produtos/buscar?nome=Hololive
+
+###
+GET http://localhost:8080/produtos?nome=UmaMusume&precoMax=40

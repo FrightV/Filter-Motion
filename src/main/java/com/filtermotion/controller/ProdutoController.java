@@ -5,6 +5,7 @@ import com.filtermotion.service.ProdutoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @RestController
@@ -20,7 +21,23 @@ public class ProdutoController {
     }
 
     @GetMapping
-    public List<Produto> listar() {
+    public List<Produto> listar(
+            @RequestParam(required = false) String nome,
+            @RequestParam(required = false) BigDecimal precoMax
+    ) {
+
+        if (nome != null && precoMax != null) {
+            return produtoService.buscarPorNomeEPrecoMax(nome, precoMax);
+        }
+
+        if (nome != null) {
+            return produtoService.buscarPorNome(nome);
+        }
+
+        if (precoMax != null) {
+            return produtoService.buscarPorPrecoMax(precoMax);
+        }
+
         return produtoService.listarTodos();
     }
 
@@ -33,4 +50,5 @@ public class ProdutoController {
     public void deletar(@PathVariable Long id) {
         produtoService.deletar(id);
     }
+
 }

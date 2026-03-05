@@ -5,6 +5,7 @@ import com.filtermotion.repository.ProdutoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Service
@@ -28,5 +29,18 @@ public class ProdutoService {
 
     public void deletar(Long id) {
         produtoRepository.deleteById(id);
+    }
+
+    public List<Produto> buscarPorNome(String nome) {
+        return produtoRepository.findByNomeContainingIgnoreCase(nome);
+    }
+
+    public List<Produto> buscarPorPrecoMax(BigDecimal precoMax) {
+        return produtoRepository.findByPrecoAtualLessThanEqual(precoMax);
+    }
+
+    public List<Produto> buscarPorNomeEPrecoMax(String nome, BigDecimal precoMax) {
+        return produtoRepository
+                .findByNomeContainingIgnoreCaseAndPrecoAtualLessThanEqual(nome, precoMax);
     }
 }

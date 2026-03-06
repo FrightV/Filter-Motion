@@ -27,3 +27,17 @@ GET http://localhost:8080/produtos/buscar?nome=Hololive
 
 ###
 GET http://localhost:8080/produtos?nome=UmaMusume&precoMax=40
+
+### Criar alerta
+POST http://localhost:8080/alertas
+Content-Type: application/json
+
+{
+  "nomeProduto": "Oshi no Ko",
+  "precoMaximo": 30
+}
+
+###
+
+### Listar alertas
+GET http://localhost:8080/alertas

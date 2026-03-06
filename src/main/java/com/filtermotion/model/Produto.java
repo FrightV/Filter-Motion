@@ -22,11 +22,13 @@ public class Produto {
 
     private String url;
 
-    private BigDecimal precoDesejado;
+    private String imagem;
+
+    private String loja;
 
     private BigDecimal precoAtual;
 
-    private String tipo;
+    private BigDecimal precoDesejado;
 
     private Boolean ativo;
 }

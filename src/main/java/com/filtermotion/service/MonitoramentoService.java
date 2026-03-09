@@ -17,7 +17,7 @@ public class MonitoramentoService {
     private final ProdutoRepository produtoRepository;
     private final AlertaPrecoRepository alertaPrecoRepository;
 
-    @Scheduled(fixedRate = 60000)
+    @Scheduled(fixedRate = 60000)//verifica a cada 60 segundos
     public void verificarPrecos() {
 
         List<Produto> produtos = produtoRepository.findAll();
@@ -27,6 +27,7 @@ public class MonitoramentoService {
             for (AlertaPreco alerta : alertas) {
 
                 if (produto.getNome().toLowerCase().contains(alerta.getNomeProduto().toLowerCase())) {
+
 
                     if (produto.getPrecoAtual().compareTo(alerta.getPrecoMaximo()) <= 0) {
 

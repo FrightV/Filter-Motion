@@ -1,54 +1,32 @@
 package com.filtermotion.controller;
 
+import com.filtermotion.dto.ProdutoDTO;
 import com.filtermotion.model.Produto;
+import com.filtermotion.repository.ProdutoRepository;
 import com.filtermotion.service.ProdutoService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 @RestController
 @RequestMapping("/produtos")
-@RequiredArgsConstructor
 public class ProdutoController {
 
-    private final ProdutoService produtoService;
+    private final ProdutoService service;
+    private final ProdutoRepository produtoRepository;
 
-    @PostMapping
-    public Produto criar(@RequestBody Produto produto) {
-        return produtoService.salvar(produto);
+    public ProdutoController(ProdutoService service, ProdutoRepository produtoRepository) {
+        this.service = service;
+        this.produtoRepository = produtoRepository;
     }
 
-    @GetMapping
-    public List<Produto> listar(
-            @RequestParam(required = false) String nome,
-            @RequestParam(required = false) BigDecimal precoMax
-    ) {
-
-        if (nome != null && precoMax != null) {
-            return produtoService.buscarPorNomeEPrecoMax(nome, precoMax);
-        }
-
-        if (nome != null) {
-            return produtoService.buscarPorNome(nome);
-        }
-
-        if (precoMax != null) {
-            return produtoService.buscarPorPrecoMax(precoMax);
-        }
-
-        return produtoService.listarTodos();
+    @GetMapping("/buscar")
+    public List<ProdutoDTO> buscar(@RequestParam String termo) {
+        return service.buscarProdutos(termo);
     }
 
-    @GetMapping("/{id}")
-    public Produto buscar(@PathVariable Long id) {
-        return produtoService.buscarPorId(id);
+    @PostMapping("/monitorar")
+    public Produto monitorarProduto(@RequestBody Produto produto) {
+        return produtoRepository.save(produto);
     }
-
-    @DeleteMapping("/{id}")
-    public void deletar(@PathVariable Long id) {
-        produtoService.deletar(id);
-    }
-
 }

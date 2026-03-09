@@ -30,5 +30,6 @@ public class Produto {
 
     private BigDecimal precoDesejado;
 
-    private Boolean ativo;
+    private Boolean ativo = true;
+
 }

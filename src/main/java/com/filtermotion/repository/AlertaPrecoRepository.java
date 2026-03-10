@@ -1,4 +1,4 @@
-package com.filtermotion.repository;
+/*package com.filtermotion.repository;
 
 import com.filtermotion.model.AlertaPreco;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -9,4 +9,4 @@ public interface AlertaPrecoRepository extends JpaRepository<AlertaPreco, Long> 
 
     List<AlertaPreco> findByNomeProdutoContainingIgnoreCase(String nomeProduto);
 
-}
+}*/

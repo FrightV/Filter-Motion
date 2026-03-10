@@ -3,8 +3,6 @@ package com.filtermotion.service;
 import com.filtermotion.dto.ProdutoDTO;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.filtermotion.model.Produto;
-import com.filtermotion.repository.ProdutoRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -15,22 +13,16 @@ import java.util.List;
 @Service
 public class ProdutoService {
 
-    private final ProdutoRepository produtoRepository;
+    private final String API_KEY = "substituir pela sua chave"; //https://serpapi.com/manage-api-key
 
-    public ProdutoService(ProdutoRepository produtoRepository) {
-        this.produtoRepository = produtoRepository;
-    }
-
-    private final String API_KEY = ;
-
-    public List<ProdutoDTO> buscarProdutos(String termo) {
+    public List<ProdutoDTO> buscarProdutos(String termo, BigDecimal precoMax) {
 
         List<ProdutoDTO> produtos = new ArrayList<>();
 
         try {
 
             String url = "https://serpapi.com/search.json?q="
-                    + termo
+                    + termo.replace(" ", "+")
                     + "&engine=google_shopping"
                     + "&gl=br"
                     + "&hl=pt"
@@ -45,15 +37,11 @@ public class ProdutoService {
             JsonNode results = root.get("shopping_results");
 
             if (results == null) {
-                System.out.println("Nenhum resultado retornado pela API");
+                System.out.println("Nenhum resultado encontrado");
                 return produtos;
             }
 
             for (JsonNode item : results) {
-
-                String link = item.has("link") ? item.get("link").asText() : null;
-
-                if (link == null || link.isEmpty()) continue;
 
                 ProdutoDTO dto = new ProdutoDTO();
 
@@ -63,42 +51,44 @@ public class ProdutoService {
                 if (item.has("source"))
                     dto.setLoja(item.get("source").asText());
 
-                if (item.has("price") && !item.get("price").isNull()) {
+                if (item.has("product_link"))
+                    dto.setUrl(item.get("product_link").asText());
+                else if (item.has("link"))
+                    dto.setUrl(item.get("link").asText());
+
+                if (item.has("thumbnail"))
+                    dto.setImagem(item.get("thumbnail").asText());
+
+                if (item.has("price")) {
 
                     String precoString = item.get("price").asText()
-                            .replace("R$", "")
-                            .replace(" ", "")
+                            .replaceAll("[^0-9,\\.]", "")
                             .replace(".", "")
                             .replace(",", ".")
                             .trim();
 
                     try {
+
                         BigDecimal preco = new BigDecimal(precoString);
+
+                        if (precoMax != null && preco.compareTo(precoMax) > 0)
+                            continue;
+
                         dto.setPreco(preco);
-                    } catch (Exception ex) {
-                        System.out.println("Erro convertendo preço: " + precoString);
+
+                    } catch (Exception e) {
+                        continue;
                     }
                 }
 
-                dto.setUrl(link);
-
-                if (item.has("thumbnail"))
-                    dto.setImagem(item.get("thumbnail").asText());
+                if (dto.getUrl() == null || dto.getPreco() == null)
+                    continue;
 
                 produtos.add(dto);
-
-                Produto produto = new Produto();
-                produto.setNome(dto.getNome());
-                produto.setLoja(dto.getLoja());
-                produto.setPrecoAtual(dto.getPreco());
-                produto.setUrl(dto.getUrl());
-                produto.setImagem(dto.getImagem());
-
-                produtoRepository.save(produto);
             }
 
         } catch (Exception e) {
-            System.out.println("Erro ao buscar produtos");
+            System.out.println("Erro ao buscar produtos:");
             e.printStackTrace();
         }
 

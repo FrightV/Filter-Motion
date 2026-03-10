@@ -1,4 +1,4 @@
-package com.filtermotion.controller;
+/*package com.filtermotion.controller;
 
 import com.filtermotion.model.AlertaPreco;
 import com.filtermotion.service.AlertaPrecoService;
@@ -29,4 +29,4 @@ public class AlertaPrecoController {
         alertaPrecoService.deletar(id);
     }
 
-}
+}*/

@@ -1,4 +1,4 @@
-package com.filtermotion.model;
+/*package com.filtermotion.model;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -21,4 +21,4 @@ public class AlertaPreco {
 
     private BigDecimal precoMaximo;
 
-}
+}*/

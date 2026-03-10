@@ -1,4 +1,4 @@
-package com.filtermotion.service;
+/*package com.filtermotion.service;
 
 import com.filtermotion.dto.ProdutoDTO;
 import com.filtermotion.model.Produto;
@@ -51,4 +51,4 @@ public class PriceMonitorService {
             }
         }
     }
-}
+}*/

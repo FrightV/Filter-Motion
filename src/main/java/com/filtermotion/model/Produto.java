@@ -1,4 +1,4 @@
-package com.filtermotion.model;
+/*package com.filtermotion.model;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -32,4 +32,4 @@ public class Produto {
 
     private Boolean ativo = true;
 
-}
+}*/

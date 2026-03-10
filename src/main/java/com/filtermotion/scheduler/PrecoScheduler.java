@@ -1,4 +1,4 @@
-package com.filtermotion.scheduler;
+/*package com.filtermotion.scheduler;
 
 import com.filtermotion.service.PriceMonitorService;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -20,4 +20,4 @@ public class PrecoScheduler {
 
         monitorService.atualizarPrecos();
     }
-}
+}*/

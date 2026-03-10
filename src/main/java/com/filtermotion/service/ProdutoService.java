@@ -13,7 +13,7 @@ import java.util.List;
 @Service
 public class ProdutoService {
 
-    private final String API_KEY = "substituir pela sua chave"; //https://serpapi.com/manage-api-key
+    private final String API_KEY = "YOUR_API_KEY";
 
     public List<ProdutoDTO> buscarProdutos(String termo, BigDecimal precoMax) {
 

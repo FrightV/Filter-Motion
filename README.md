@@ -112,7 +112,7 @@ http://localhost:8080/produtos/buscar?termo=your-product-name&precoMax=50
   {
     "nome": "product name",
     "loja": "store name",
-    "preco": price,
+    "preco": 00.00,
     "url": "https://...",
     "imagem": "https://..."
   }
